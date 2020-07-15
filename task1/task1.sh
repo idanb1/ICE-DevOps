@@ -8,7 +8,6 @@ function descending_order(){
         ls -rm "$1"
 }
 
-POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
 key="$1"
@@ -23,7 +22,7 @@ case $key in
 		
 		Example: ./task1 -p ./Excercise/ -a
 			 ./task1 -p ./Excercise/ -d"
-		shift
+		exit 1
 		;;
 	-p|--path)
 		FOLDERPATH="$2"
@@ -39,18 +38,16 @@ case $key in
 		shift # past value
 		;;
 	*)    # unknown option
-		POSITIONAL+=("$1") # save it in an array for later
-		shift # past argument
+		echo "Try again with sorting argument, use -h/--help for more details"
+		exit 1
 		;;
 esac
 done
-set -- "${POSITIONAL[@]}" # restore positional parameters
-
 
 if [ "$ORDER" = true ]; then
 	ascending_order "$FOLDERPATH"
 elif [ "$ORDER" = false ]; then
 	descending_order "$FOLDERPATH"
 else
-	echo "Sorting order was not detected (-a|--ascending or -d|--descending), Try again with sorting argument"
+	echo "Try again with sorting argument, use -h/--help for more details"
 fi
