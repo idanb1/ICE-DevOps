@@ -46,10 +46,12 @@ Each duplicate files group seperated with a new line:"
 		CNT=0
 		# comparing md5 array to find the differences between duplicated matched files (assigning into groups)
 		LAST_DUP=$lines_md5[$CNT]
+		MATCHES_CNT=1
 		for line in "${lines_md5[@]}"
 		do
 			if [ ${lines_md5[$CNT]} != $LAST_DUP ]; then
-	                        printf "\n"
+				printf "Match $MATCHES_CNT:\n"
+				MATCHES_CNT=$(($MATCHES_CNT + 1))
 			fi
 			echo "${files_line[$CNT]}"
 			LAST_DUP=${lines_md5[$CNT]}
