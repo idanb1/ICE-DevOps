@@ -1,0 +1,24 @@
+LXC \ LXD :
+
+# Installing LXD:
+	$ apt install lxd lxd-client
+# Initializing LXD wizard:
+	$ sudo lxd init
+# Print LXC list:
+	$ lxc list
+# Launching new LXC container:
+	$ lxc launch ubuntu:18.04 idan's-ubuntu
+## Print 'repository' list of LXC images:
+	$ lxc image list images
+## Launch LXC from images repo:
+	$ lxc launch ubuntu:18.04 idan-ubuntu
+	$ lxc launch images:alpine/3.10 my-alpine 
+## Enter to LXC container:
+	$ lxc exec idan-ubuntu -- /bin/bash
+	$ lxc exec my-alpine -- /bin/ash
+## Delete LXC:
+	$ lxc delete my-ubuntu
+## Remote list (repository):
+	$ lxc remote list
+## images downloaded list:
+	$ lxc image list

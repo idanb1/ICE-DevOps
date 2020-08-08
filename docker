@@ -1,0 +1,176 @@
+##Docker installer script(include dependencies):
+https://github.com/docker/docker-install
+
+##After manual-installation test:
+start docker:
+enable engine:
+systemctl enable docker
+start docker:
+systemctl start docker
+run hello-world container:
+sudo docker run hello-world
+
+##Adding Docker repository(ubuntu):
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+
+##Privilege permissions with speciofic user and docker:
+(here below cloud user 'ubuntu' granted with permissions to docker app)
+sudo usermod -a -G docker ubuntu
+
+## Basic Docker Manifest\dockerfile:
+FROM ubuntu:18.04
+LABEL maintainer="belisha.idan@gmail.com"
+RUN apt-get update
+RUN apt-get install -y python3
+
+
+##Docker management:
+	Build docker image from a basic dockerfile(image-manifest):
+		docker build -t image-name .
+	Create container from existing image:
+		docker run image-id/image-name command-to-execute ; example: docker run devidan/onboarding:image1 echo "hello"
+		** --rm flag will cause the container to executed by the images plan, execute command-to-execute and will 
+		remove container at the end.
+		** -it (mutualy exclusive with --rm,) - will enter to interactive mode (will connect and run the container
+		right after creation)
+		** -v - mounting a volume into the created container, example: docker run -v /home/ubuntu/folder-to-mount:/container-mounted-folder devidan/onboarding:image1
+	Docker images list:
+		docker images
+	Docker started containers list:
+		docker container ls -a 
+	Remove image:
+		docker rmi image-id
+	Remove container:
+		docker rm container-id
+	Start container(power-on):
+		docker container start container-name
+	Connect into a running container:
+		docker container attach container-name
+	Exit & stop container
+		exit
+	Exit & continue container up:
+		CTRL + p + q
+	Print all container information:
+		$ docker container inspect container-id
+	Delete all stopped containers:
+		$ docker container prune -f
+		
+		
+		
+		
+	#Docker Hub
+		Login to docker hub:
+		Login to docker-hub:
+			docker login
+			(devidan/Aa1234567)
+		Tag an image into dockerhub user(pre-requisite before pushing image to docker hub)
+			docker tag image-id dockerhub-user/repository:image-tag
+			docker tag bb82e5d26e54 devidan/onboarding:v1
+		Push image into dockerhub:
+			docker push devidan/onboarding
+		Pull from dockerhub an image:
+			docker pull devidan/onboarding:v1
+			
+	Docker ip address:
+		docker container inspect container-id | grep IPAdd
+	Exposing ports:
+		below command will make each call from outer container world to port 80 into the specific container accesible
+		docker container run -d -p 80:80 image-name
+		
+		
+### Docker swarm:
+	Define manager swarm:
+		$ docker swarm init --advertise-addr 172.31.105.81
+		*! Then you'll get kind of the following output:
+			Swarm initialized: current node (a12gkz0mjefnlaco63h43tz8f) is now a manager.
+			To add a worker to this swarm, run the following command:
+
+				docker swarm join --token SWMTKN-1-5aj8dwvxkm9h2xdfh7g6qb2mz1cyhd1r9xw5g5t6us1z8lqkc0-3c7qra4pk0wkut1yoluweym18 172.31.105.81:2377
+
+			To add a additional manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+	*! Now this is the docker swarm manager, to configure HA and another manager to a cluster of managers try the wizard:
+			$ docker swarm join-token manager
+	*! To add Workers to this manager use the token generated while initiated this manager:
+			$ docker swarm join --token SWMTKN-1-5aj8dwvxkm9h2xdfh7g6qb2mz1cyhd1r9xw5g5t6us1z8lqkc0-3c7qra4pk0wkut1yoluweym18 172.31.105.81:2377
+		Enter above command on each docker server to make him worker.
+	Print all docker swarm nodes: 
+		$ docker node ls
+	To add new service \ tasks \ applications \ containers to your swarm manager(2 replicas, fwd ports 80:80, nginx image):
+		$ docker service create --replicas 2 -p 80:80 --name myweb nginx
+	Print all swarm services status(you'll see on which nodes the services installed, and if one of the nodes will failed,
+	the service will run on another node):
+		$ docker service ls
+	**If you deploy on manager node, container with "docker run image name" it will run only on the manager
+	** Service will be able from all nodes, even if they doesn't has the container or not because the idea is the whole swarm will provide you the swarm service.
+	** The idea is services is always available from all kind of nodes
+	Print specific service status + history:
+		$ docker service ps myweb
+
+
+
+
+
+
+Management Commands:
+
+builder Manage builds
+config Manage Docker configs
+container Manage containers
+engine Manage the docker engine
+image Manage images
+network Manage networks
+node Manage Swarm nodes
+plugin Manage plugins
+secret Manage Docker secrets
+service Manage services
+stack Manage Docker stacks
+swarm Manage Swarm
+system Manage Docker
+trust Manage trust on Docker images
+volume Manage volumes
+	
+	
+	
+	$ docker image:
+
+		$ build - Build an image from a dockerfile
+		$ history - Show the history of an image
+		$ import - Import the contents from a tarball to create a filesystem image
+		$ inspect - Display detailed information on one or more images
+		$ load - Load an image from a tar file or STDIN
+		$ ls - List images
+		$ prune - Remove unused images
+		$ pull - Pull an image or a repository from a registry
+		$ push - Push an image or a repository to a registry
+		$ rm - Remove one or more images
+		$ save - Save one or more images to a tar file (streamed to STDOUT by default)
+		$ tag - Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+	
+	docker container:
+
+		$ attach - Attach local standard input, output, and error streams to a running container
+		$ commit - Create a new image from a container's changes
+		$ cp - Copy files/folders between a container and the local filesystem
+		$ create - Create a new container
+		$ diff - Inspect changes to files or directories on a container's filesystem
+		$ exec - Run a command in a running container
+		$ export - Export a container's filesystem as a tar archive
+		$ inspect - Display detailed information on one or more containers
+		$ kill - Kill one or more running containers
+		$ logs - Fetch the logs of a container
+		$ ls - List containers
+		$ pause - Pause all processes within one or more containers
+		$ port - List port mappings or a specific mapping for the container
+		$ prune - Remove all stopped containers
+		$ rename - Rename a container
+		$ restart - Restart one or more containers
+		$ rm - Remove one or more containers
+		$ run - Run a command in a new container
+		$ start - Start one or more stopped containers
+		$ stats - Display a live stream of container(s) resource usage statistics
+		$ stop - Stop one or more running containers
+		$ top - Display the running processes of a container
+		$ unpause - Unpause all processes within one or more containers
+		$ update - Update configuration of one or more containers
+		$ wait - Block until one or more containers stop, then print their exit codes

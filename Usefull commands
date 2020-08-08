@@ -1,0 +1,50 @@
+
+##Disable password required linux:
+	$ sudo visudo
+	Then, search for %admin ALL=(ALL) ALL and replace the line by %admin ALL=(ALL) NOPASSWD: ALL.
+	Used shortcut key [CTRL] + [o] and press Enter to save all changes. Next, use shortcut key [CTRL] + [x] to close the file.
+
+
+##Adding repository(ubuntu):
+	$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+
+##CPU avg usage:
+	$ sar -u 5
+
+##Privilege permissions with speciofic user and app:
+	(here below cloud user 'ubuntu' granted with permissions to docker app)
+	$ sudo usermod -a -G docker ubuntu
+
+##Keep spot instacne alive script (if configured threshold of 1 % cpu avg):
+	$ while (true); do apt-get update > /dev/null 2>&1;  sleep 3 ; done
+
+##Transfer output to dev null & :
+ $ any_command_with_output >>/dev/null 2>&1
+ 
+##Linux web browser:
+	$ elinks localhost:80
+
+## Print storage-devices status:
+	$ dh -f \ du -f (du printing directory capacity)
+## Print Which user am I:
+	$ whoami
+##
+
+
+
+
+
+
+
+
+
+
+
+
+
+קורס ארכיטקטים מוקלט:
+
+https://objectstorage.uk-london-1.oraclecloud.com/p/MhwrU2D6sabRm02PHB8MYLMh2vQVi1XLLt0oBUJrwzw/n/oraseemeail/b/Fundamentals/o/Eran-OCI-Fundamentals-Israel-July-2020-Part1.mp4
+https://objectstorage.uk-london-1.oraclecloud.com/p/hmW2IUkY5X5yUguVlQZYwwCLhFzsEqyVhQ1FLBD7VDE/n/oraseemeail/b/Fundamentals/o/Eran-OCI-Fundamentals-Israel-July-2020-Part2-1.mp4
+https://objectstorage.uk-london-1.oraclecloud.com/p/VozWc2LPZRvQ5sL_jLGPHoBcOkFjBANt0JpiT58YrPQ/n/oraseemeail/b/Fundamentals/o/Eran-OCI-Fundamentals-Israel-July-2020-Part2-2.mp4

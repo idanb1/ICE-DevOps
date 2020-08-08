@@ -1,0 +1,52 @@
+Essential Container Concepts:
+
+##Network namespace:
+	Adding new network namespace:
+		$ sudo ip netns add sample1
+	Print ip network namespaces list:
+		$ sudo ip netns list
+	Enter into network namespace (as root):
+		$ sudo ip netns exec sample1 bash
+		Add iptable rule to the network namespace:
+			$iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+		Print iptable rules:
+			$ iptable -L
+		Exit from network namspace:
+			$ exit
+## CHROOT:
+	Creating basic chrooted environment:
+		Create a directory for elba within the /home directory:
+			$ mkdir /home/elba
+		Create a new user for your environment named napoleon:
+			$ useradd napoleon
+		Create two new directories, bin and lib64, within the /home/elba directory:
+			$ mkdir /home/elba/{bin,lib64}
+		Copy /bin/bash into /home/elba/bin/bash:
+			$ cp /bin/bash /home/elba/bin/bash
+		Copy /usr/bin/ls into /home/elba/bin/ls:
+			$ cp /bin/ls /home/elba/bin/ls
+		Copy /bin/cat into /home/elba/bin/cat:
+			$ cp /bin/cat /home/elba/bin/cat
+		Copy the libraries needed for bash, ls, and cat over to /home/elba/lib64.
+			*Important note - There's OS's versions, as ubuntu18.04LTS that actually stores those libraries in 2 locations - 
+				/lib/x86_64-linux-gnu/ & /lib64/ - if that's your scenario(you'll see after enter ldd),
+				you should create the exact libraries folder as your 'actual root' orginized it, please enter:
+					$ sudo mkdir /home/elba/lib && sudo mkdir /home/elba/lib/x86_64-linux-gnu.
+			Find and copy the libraries needed for bash, ls, and cat over to /home/elba/lib64:
+				$ sudo ldd /bin/bash /bin/ls /bin/cat
+				$ sudo cp /lib/x86_64-linux-gnu/libtinfo.so.5 /lib/x86_64-linux-gnu/libdl.so.2 \
+				/lib/x86_64-linux-gnu/libc.so.6 /lib/x86_64-linux-gnu/libselinux.so.1 \
+				/lib/x86_64-linux-gnu/libc.so.6 /lib/x86_64-linux-gnu/libpcre.so.3 \
+				/lib/x86_64-linux-gnu/libdl.so.2 /lib/x86_64-linux-gnu/libpthread.so.0 \
+				/lib/x86_64-linux-gnu/libc.so.6 /home/elba/lib/x86_64-linux-gnu
+				$ sudo cp /lib64/ld-linux-x86-64.so.2 /home/elba/lib64/
+		Using vi, create the waterloo.txt file in the /home/elba directory with instructions on how to escape:
+			vi /home/elba/waterloo.txt
+		Using the chroot command, create a chrooted environment in /home/elba with a Bash shell:
+			$ chroot /home/elba /bin/bash
+		Using the command pwd, confirm the present working directory and then confirm that you can use the ls command:
+			$ pwd
+			$ ls
+			$ cat
+		View the contents of waterloo.txt and find out how to escape your environment:
+			$ cat waterloo.txt

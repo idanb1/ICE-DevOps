@@ -1,0 +1,24 @@
+Python Mission - Practice basic linux  with OOP
+
+1. Basic vital parameters monitoring:
+* Interface status
+* IP adresses (per available interface)
+* MAC address
+* IP-Route status
+* List of pci-e devices
+* Internet connection)
+2. Configure tool for new static IP + default SM if not givven
+
+
+
+Thinking in text:
+
+to get prepaed for this OOP mission, I want to implement the following subjects:
+
+OOP & Polymorphism: 
+Interface Abstract class: include (each interface have the same charactiristics (IP/MAC+UP\DOWN)) - So It's not a
+good idea to make Interface as the abstract class, need to think about other 'character' that has many different uses
+but with a few defferent uses.
+bash commands
+
+Polymorphism  - Interface class, which includes abstract method of setting up ip configuration , Polymo' will get in with a new Bond class that uses the setting IP method with a bit different use.
